@@ -37,13 +37,15 @@ class users_controller extends base_controller {
 
     }
 
-    public function login() {
+    public function login($error = NULL) {
 
-        # Setup view
-        $this->template->content = View::instance('v_users_login');
-        $this->template->title   = "Login";
+        # Set up the view
+        $this->template->content = View::instance("v_users_login");
 
-        # Render template
+        # Pass data to the view
+        $this->template->content->error = $error;
+
+        # Render the view
         echo $this->template;
 
     }
@@ -65,11 +67,10 @@ class users_controller extends base_controller {
 
         $token = DB::instance(DB_NAME)->select_field($q);
 
-        # If we didn't find a matching token in the database, it means login failed
+        # Login failed
         if(!$token) {
-
-            # Send them back to the login page
-            Router::redirect("/users/login/");
+            # Note the addition of the parameter "error"
+            Router::redirect("/users/login/error");
 
         # But if we did, login succeeded! 
         } else {
