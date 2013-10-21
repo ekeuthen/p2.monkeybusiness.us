@@ -16,6 +16,7 @@ class users_controller extends base_controller {
 
     }
 
+    #Is there a way to duplicate less code between signup and login?
     public function p_signup() {
 
         # More data we want stored with the user
@@ -27,13 +28,28 @@ class users_controller extends base_controller {
 
         # Create an encrypted token via their email address and a random string
         $_POST['token'] = sha1(TOKEN_SALT.$_POST['email'].Utils::generate_random_string()); 
+        $token = $_POST['token'];
 
         # Insert this user into the database 
         $user_id = DB::instance(DB_NAME)->insert("users", $_POST);
 
         # For now, just confirm they've signed up - 
         # You should eventually make a proper View for this
-        echo 'You\'re signed up';
+        # echo 'You\'re signed up';
+
+        /* 
+        Store this token in a cookie using setcookie()
+        Important Note: *Nothing* else can echo to the page before setcookie is called
+        Not even one single white space.
+        param 1 = name of the cookie
+        param 2 = the value of the cookie
+        param 3 = when to expire
+        param 4 = the path of the cooke (a single forward slash sets it for the entire domain)
+        */
+        setcookie("token", $token, strtotime('+1 year'), '/');
+
+        # Send them to the main page - or whever you want them to go
+        Router::redirect("/");
 
     }
 
@@ -106,6 +122,23 @@ class users_controller extends base_controller {
 
         # Render template
         echo $this->template;
+    }
+
+    public function listAll() {
+
+        # If user is blank, they're not logged in; redirect them to the login page
+        if(!$this->user) {
+            Router::redirect('/users/login');
+        }
+
+        # If they weren't redirected away, continue:
+        # Setup view
+            $this->template->content = View::instance('v_users_listAll');
+            $this->template->title   = "List";
+
+        # Render template
+            echo $this->template;
+
     }
 
     public function logout() {

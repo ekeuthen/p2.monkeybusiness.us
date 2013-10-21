@@ -6,8 +6,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
 
 	<!-- Common CSS/JSS -->
-    <!--<link rel="stylesheet" href="/css/app.css" type="text/css">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+   <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
 					
 	<!-- Controller Specific JS/CSS -->
 	<?php if(isset($client_files_head)) echo $client_files_head; ?>
@@ -25,6 +25,9 @@
 
             <a href='/users/logout'>Logout</a>
             <a href='/users/profile'>Profile</a>
+            <a href='/users/listAll'>List All Users</a>
+            <a href= '/posts/add'>Add a Post</a>
+            <a href= '/posts'>View All Posts</a>
 
         <!-- Menu options for users who are not logged in -->
         <?php else: ?>

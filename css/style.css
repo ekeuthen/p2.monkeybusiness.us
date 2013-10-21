@@ -1,0 +1,14 @@
+/*Emily Keuthen ekeuthen@gmail.com CSCI E-15 P2 October 2013*/
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: center;
+	font-weight: bolder;
+}
+
+footer {
+	clear: both;
+	font-weight: lighter;
+	color: grey;
+	margin: 5px 5px 0px;
+}
