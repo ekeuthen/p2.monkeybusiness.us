@@ -25,7 +25,7 @@
 
             <a href='/users/logout'>Logout</a>
             <a href='/users/profile'>Profile</a>
-            <a href='/users/listAll'>List All Users</a>
+            <a href='/posts/users'>List All Users</a>
             <a href= '/posts/add'>Add a Post</a>
             <a href= '/posts'>View All Posts</a>
 

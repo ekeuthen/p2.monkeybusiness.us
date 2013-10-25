@@ -122,22 +122,48 @@ class users_controller extends base_controller {
 
         # Render template
         echo $this->template;
+
     }
 
-    public function listAll() {
+    public function p_profile() {
 
-        # If user is blank, they're not logged in; redirect them to the login page
-        if(!$this->user) {
-            Router::redirect('/users/login');
+        //code inspired by http://davidwalsh.name/basic-file-uploading-php
+        //if they DID upload a file...
+        if($_FILES['photo']['name'])
+        {
+            //if no errors...
+            if(!$_FILES['photo']['error'])
+            {
+                //now is the time to modify the future file name and validate the file
+                if($_FILES['photo']['size'] > (1024000)) //can't be larger than 1 MB
+                {
+                    $valid_file = false;
+                    $message = 'Oops!  Your file\'s size is to large.';
+                }
+                
+                //if the file has passed the test
+                else
+                {
+                    //move it to where we want it to be
+                    $currentdir = getcwd();
+                    $target = $currentdir .'/uploads/' . basename($_FILES['photo']['name']);
+                    move_uploaded_file($_FILES['photo']['tmp_name'], $target);
+                    $message = 'Congratulations!  Your file was accepted.';
+                }
+            }
+            //if there is an error...
+            else
+            {
+                //set that to be the returned message
+                $message = 'Ooops!  Your upload triggered the following error:  '.$_FILES['photo']['error'];
+            }
         }
 
-        # If they weren't redirected away, continue:
-        # Setup view
-            $this->template->content = View::instance('v_users_listAll');
-            $this->template->title   = "List";
-
-        # Render template
-            echo $this->template;
+        //you get the following information for each file:
+        //$_FILES['field_name']['name']
+        //$_FILES['field_name']['size']
+        //$_FILES['field_name']['type']
+        //$_FILES['field_name']['tmp_name']
 
     }
 
