@@ -12,3 +12,45 @@ footer {
 	color: grey;
 	margin: 5px 5px 0px;
 }
+
+div h2, div h3{
+	display: inline;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+div a, img {
+	padding: 25px;
+}
+
+a:hover, a:active {
+	color: gray;
+}
+
+#left {
+	text-align: left;
+}
+
+#right {
+	text-align: right;
+}
+
+td {
+	text-align: left;
+	padding: 10px;
+}
+
+table {
+	margin: auto;
+}
+
+#avatar {
+	padding: 0px 15px 0px 0px;
+}
+
+#avatar2 {
+	padding: 0px;
+}

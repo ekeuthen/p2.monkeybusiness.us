@@ -1,14 +1,29 @@
-<img src="/uploads/monkeyface.jpg" height=50 width=50>
+<h1><img src="/uploads/monkeyface.jpg" height=50 width=50 id='avatar'><?=$user->first_name?>'s Profile</h1>
 
-<h1><?=$user->first_name?>'s Profile</h1>
-<h3>First name: <?=$user->first_name?><h3>
-<h3>Last name: <?=$user->first_name?><h3>
-<h3>Email: <?=$user->email?><h3>
-<!--Convert to reable date-->
-<h2>Thank you for being a Monkey Mic user since <?=$user->created?>!<h2>
+<table>
+	<tr>
+		<td>First name:</td>
+		<td><?=$user->first_name?></td>
+	</tr>
+	<tr>
+		<td>Last name:</td>
+		<td><?=$user->first_name?></td>
+	</tr>
+	<tr>
+		<td>Email:</td>
+		<td><?=$user->email?></td>
+	</tr>
+	<tr>
+		<td>Change Photo:</td>
+		<td>
+			<!--code inspired by http://davidwalsh.name/basic-file-uploading-php-->
+			<form action="/users/p_profile" method="post" enctype="multipart/form-data">
+				<input type="file" name="photo" size="25" />
+				<input type="submit" name="submit" value="Submit" /></h3>
+			</form>
+		</td>
+	</tr>
+</table>
+</br>
 
-<!--code inspired by http://davidwalsh.name/basic-file-uploading-php-->
-<form action="/users/p_profile" method="post" enctype="multipart/form-data">
-	Your Photo: <input type="file" name="photo" size="25" />
-	<input type="submit" name="submit" value="Submit" />
-</form>
+<h3>Thank you for being a part of the Monkey <a href='http://www.npwrc.usgs.gov/about/faqs/animals/names.htm'>troop</a> since <?php echo date('F d, Y',$user->created); ?>!</h2>

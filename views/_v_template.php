@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php if(isset($title)) echo $title; ?></title>
+	<title>
+        <?php if(isset($title)) echo $title; ?>
+    </title>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
 
@@ -17,25 +19,29 @@
 <body>  
 
     <div id='menu'>
-
-        <a href='/'>Home</a>
+        <div id = 'left'>
+            <a href='/'><h2>MONKEY MIC</h2></a>
+        </div>
 
         <!-- Menu for users who are logged in -->
-        <?php if($user): ?>
+        <div id='right'><h3>
+            <?php if($user): ?>
 
-            <a href='/users/logout'>Logout</a>
-            <a href='/users/profile'>Profile</a>
-            <a href='/posts/users'>List All Users</a>
-            <a href= '/posts/add'>Add a Post</a>
-            <a href= '/posts'>View All Posts</a>
+                <a href='/users/profile'>PROFILE</a>
+                <a href='/posts/users'>USERS</a>
+                <a href= '/posts/add'>TALK</a>
+                <a href= '/posts'>LISTEN</a>
+                <a href='/users/logout'>LOGOUT</a>
 
-        <!-- Menu options for users who are not logged in -->
-        <?php else: ?>
+            <!-- Menu options for users who are not logged in -->
+            <?php else: ?>
 
-            <a href='/users/signup'>Sign up</a>
-            <a href='/users/login'>Log in</a>
+                <a href='/users/signup'>SIGN UP</a>
+                <a href='/users/login'>LOG IN</a>
 
-        <?php endif; ?>
+            <?php endif; ?>
+        </div></h3>
+        <hr>
 
     </div>
 

@@ -57,6 +57,7 @@ class users_controller extends base_controller {
 
         # Set up the view
         $this->template->content = View::instance("v_users_login");
+        $this->template->title   = "Log In";
 
         # Pass data to the view
         $this->template->content->error = $error;
@@ -118,7 +119,7 @@ class users_controller extends base_controller {
 
         # Setup view
         $this->template->content = View::instance('v_users_profile');
-        $this->template->title   = "Profile of".$this->user->first_name;
+        $this->template->title   = "Profile of ".$this->user->first_name;
 
         # Render template
         echo $this->template;
