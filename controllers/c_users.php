@@ -44,21 +44,6 @@ class users_controller extends base_controller {
         */
         setcookie("token", $token, strtotime('+1 year'), '/');
 
-        #Set user to automatically be following themselves
-        #$q = "INSERT INTO users_users (created, user_id, user_id_followed)
-                #VALUES (".$_POST['created'].", ".$this->user->user_id.", ".$this->user->user_id.");"
-        #DB::instance(DB_NAME)->insert("users", $data);
-        #posts::follow($this->user->user_id);
-         # Prepare the data array to be inserted
-        $data = Array(
-            "created" => Time::now(),
-            "user_id" => $this->user->user_id,
-            "user_id_followed" => $this->user->user_id,
-            );
-
-        # Do the insert
-        DB::instance(DB_NAME)->insert('users_users', $data);
-
         # Send them to the main page - or whever you want them to go
         Router::redirect("/");
 
