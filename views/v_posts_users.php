@@ -1,4 +1,4 @@
-<table>
+<table id = 'posts'>
     <?php foreach($users as $user): ?>
 
         <tr>

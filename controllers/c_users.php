@@ -33,10 +33,6 @@ class users_controller extends base_controller {
         # Insert this user into the database 
         $user_id = DB::instance(DB_NAME)->insert("users", $_POST);
 
-        # For now, just confirm they've signed up - 
-        # You should eventually make a proper View for this
-        # echo 'You\'re signed up';
-
         /* 
         Store this token in a cookie using setcookie()
         Important Note: *Nothing* else can echo to the page before setcookie is called
@@ -47,6 +43,21 @@ class users_controller extends base_controller {
         param 4 = the path of the cooke (a single forward slash sets it for the entire domain)
         */
         setcookie("token", $token, strtotime('+1 year'), '/');
+
+        #Set user to automatically be following themselves
+        #$q = "INSERT INTO users_users (created, user_id, user_id_followed)
+                #VALUES (".$_POST['created'].", ".$this->user->user_id.", ".$this->user->user_id.");"
+        #DB::instance(DB_NAME)->insert("users", $data);
+        #posts::follow($this->user->user_id);
+         # Prepare the data array to be inserted
+        $data = Array(
+            "created" => Time::now(),
+            "user_id" => $this->user->user_id,
+            "user_id_followed" => $this->user->user_id,
+            );
+
+        # Do the insert
+        DB::instance(DB_NAME)->insert('users_users', $data);
 
         # Send them to the main page - or whever you want them to go
         Router::redirect("/");

@@ -45,19 +45,33 @@ class posts_controller extends base_controller {
         $this->template->title   = "Listen";
 
         # Query
-        $q = 'SELECT 
-                posts.content,
-                posts.created,
-                posts.user_id AS post_user_id,
-                users_users.user_id AS follower_id,
-                users.first_name,
+        $q = 'SELECT DISTINCT 
+                posts.content, 
+                posts.created, 
+                posts.user_id AS post_user_id, 
+                users.first_name, 
                 users.last_name
-            FROM posts
-            INNER JOIN users_users 
-                ON posts.user_id = users_users.user_id_followed
-            INNER JOIN users 
-                ON posts.user_id = users.user_id
-            WHERE users_users.user_id = '.$this->user->user_id;
+            FROM posts, users, users_users
+            WHERE (posts.user_id = users.user_id
+                AND posts.user_id = '.$this->user->user_id.')
+            OR (posts.user_id = users_users.user_id_followed
+                AND users_users.user_id = '.$this->user->user_id.'
+                AND posts.user_id = users.user_id)
+            ORDER BY posts.created DESC';
+        #$q = 'SELECT 
+        #        posts.content,
+         #       posts.created,
+          #      posts.user_id AS post_user_id,
+           #     users_users.user_id AS follower_id,
+            #    users.first_name,
+             #   users.last_name
+            #FROM posts
+            #INNER JOIN users_users 
+             #   ON posts.user_id = users_users.user_id_followed
+            #INNER JOIN users 
+             #   ON posts.user_id = users.user_id
+            #WHERE users_users.user_id = '.$this->user->user_id.
+            #' ORDER BY posts.created DESC';
 
         # Run the query, store the results in the variable $posts
         $posts = DB::instance(DB_NAME)->select_rows($q);
@@ -78,7 +92,8 @@ class posts_controller extends base_controller {
 
         # Build the query to get all the users
         $q = "SELECT *
-            FROM users";
+            FROM users
+            WHERE users.user_id != ".$this->user->user_id;
 
         # Execute the query to get all the users. 
         # Store the result array in the variable $users

@@ -7,7 +7,7 @@
 	</tr>
 	<tr>
 		<td>Last name:</td>
-		<td><?=$user->first_name?></td>
+		<td><?=$user->last_name?></td>
 	</tr>
 	<tr>
 		<td>Email:</td>
