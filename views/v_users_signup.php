@@ -3,19 +3,19 @@
     <h3>Hi.  It's nice to meet you.  You'll be on your way to making monkey noises in no time.</h3>
 
     First Name<br>
-    <input type='text' name='first_name' required='true'>
+    <input type='text' name='first_name' required=''>
     <br><br>
 
     Last Name<br>
-    <input type='text' name='last_name' required='true'>
+    <input type='text' name='last_name' required=''>
     <br><br>
 
     Email<br>
-    <input type='text' name='email' required='true'>
+    <input type='text' name='email' required=''>
     <br><br>
 
     Password<br>
-    <input type='password' name='password' required='true'>
+    <input type='password' name='password' required=''>
     <br><br>
 
     <?php if(isset($error)): ?>

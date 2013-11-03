@@ -1,5 +1,5 @@
 <h1>
-	<img src="/uploads/avatars/monkeyface.jpg" height=50 width=50 id='avatar'>
+	<img src="/uploads/avatars/monkeyface.jpg" height=50 width=50 id='avatar' alt="user photo">
 	<?php
 		$file = '\uploads\avatars\monkeyface.jpg'; 
 		if (file_exists($file)) {
@@ -35,13 +35,15 @@
 		</td>
 	</tr>-->
 	<!--Alllow users to delete their accounts.  Log them out and then delete records in database. -->
-	<form method='POST' action='/users/p_profile'>
-		<tr>
-			<td>Had enough Monkey business?</td>
-			<td><a href='/users/logout'><input type='submit' value='Delete account'></a></td>
-		</tr>
-	</form>
 </table>
+
+<form method='POST' action='/users/p_profile'>
+	<tr>
+		<td>Had enough Monkey business?</td>
+		<td><a href='/users/logout'><input type='submit' value='Delete account'></a></td>
+	</tr>
+</form>
+
 <?php if(isset($message)): ?>
     <div class='error'>
         <?=$message;?>
