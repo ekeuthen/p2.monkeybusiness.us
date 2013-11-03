@@ -4,7 +4,7 @@
         <tr>
 
             <td>
-                <img src="/uploads/monkeyface.jpg" height=50 width=50 id='avatar2'>
+                <img src="/uploads/avatars/monkeyface.jpg" height=50 width=50 id='avatar2'>
             </td>
 
             <td>

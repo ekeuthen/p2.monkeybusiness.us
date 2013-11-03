@@ -1,4 +1,4 @@
-<h3>Here's the latest monkey chatter.  If you want to hear more noise, navigate to USERS and select monkeys to follow.</h3><br />
+<h3>Here's the latest monkey chatter. <br />If you want to hear more noise, navigate to USERS and select monkeys to follow.</h3>
 <table id="postsList">
 	<?php foreach($posts as $post): ?>
 

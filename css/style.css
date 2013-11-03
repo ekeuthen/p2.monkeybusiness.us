@@ -79,4 +79,7 @@ table {
     width: 600px;
     border-spacing: 10px 20px;
 }
- 
+
+div.error {
+	color: green;
+}

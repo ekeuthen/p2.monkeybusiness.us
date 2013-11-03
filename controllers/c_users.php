@@ -5,11 +5,14 @@ class users_controller extends base_controller {
         parent::__construct();
     } 
 
-    public function signup() {
+    public function signup($error = null) {
 
         # Setup view
             $this->template->content = View::instance('v_users_signup');
             $this->template->title   = "Sign Up";
+
+        # Pass data to the view
+            $this->template->content->error = $error;
 
         # Render template
             echo $this->template;
@@ -19,33 +22,46 @@ class users_controller extends base_controller {
     #Is there a way to duplicate less code between signup and login?
     public function p_signup() {
 
-        # More data we want stored with the user
-        $_POST['created']  = Time::now();
-        $_POST['modified'] = Time::now();
+        # Validate email is not already in the database
+        $q = "SELECT email
+            FROM users
+            WHERE email = '".$_POST['email']."'";
 
-        # Encrypt the password  
-        $_POST['password'] = sha1(PASSWORD_SALT.$_POST['password']);            
+        $newEmail = DB::instance(DB_NAME)->select_field($q);
 
-        # Create an encrypted token via their email address and a random string
-        $_POST['token'] = sha1(TOKEN_SALT.$_POST['email'].Utils::generate_random_string()); 
-        $token = $_POST['token'];
+        if ($newEmail != null) {
+            Router::redirect("/users/signup/error");
+        }
 
-        # Insert this user into the database 
-        $user_id = DB::instance(DB_NAME)->insert("users", $_POST);
+        else {
+            # More data we want stored with the user
+            $_POST['created']  = Time::now();
+            $_POST['modified'] = Time::now();
 
-        /* 
-        Store this token in a cookie using setcookie()
-        Important Note: *Nothing* else can echo to the page before setcookie is called
-        Not even one single white space.
-        param 1 = name of the cookie
-        param 2 = the value of the cookie
-        param 3 = when to expire
-        param 4 = the path of the cooke (a single forward slash sets it for the entire domain)
-        */
-        setcookie("token", $token, strtotime('+1 year'), '/');
+            # Encrypt the password  
+            $_POST['password'] = sha1(PASSWORD_SALT.$_POST['password']);            
 
-        # Send them to the main page - or whever you want them to go
-        Router::redirect("/");
+            # Create an encrypted token via their email address and a random string
+            $_POST['token'] = sha1(TOKEN_SALT.$_POST['email'].Utils::generate_random_string()); 
+            $token = $_POST['token'];
+
+            # Insert this user into the database 
+            $user_id = DB::instance(DB_NAME)->insert("users", $_POST);
+
+            /* 
+            Store this token in a cookie using setcookie()
+            Important Note: *Nothing* else can echo to the page before setcookie is called
+            Not even one single white space.
+            param 1 = name of the cookie
+            param 2 = the value of the cookie
+            param 3 = when to expire
+            param 4 = the path of the cooke (a single forward slash sets it for the entire domain)
+            */
+            setcookie("token", $token, strtotime('+1 year'), '/');
+
+            # Send them to the main page - or whever you want them to go
+            Router::redirect("/");
+        }
 
     }
 
@@ -99,12 +115,12 @@ class users_controller extends base_controller {
             */
             setcookie("token", $token, strtotime('+1 year'), '/');
 
-            # Send them to the main page - or whever you want them to go
+            # Send them to the home page
             Router::redirect("/");
         }
     }
 
-    public function profile() {
+    public function profile($message = null) {
 
         # If user is blank, they're not logged in; redirect them to the login page
         if(!$this->user) {
@@ -117,6 +133,10 @@ class users_controller extends base_controller {
         $this->template->content = View::instance('v_users_profile');
         $this->template->title   = "Profile of ".$this->user->first_name;
 
+        # Pass data to the view
+        #$this->template->content->message = $message;
+
+
         # Render template
         echo $this->template;
 
@@ -124,7 +144,10 @@ class users_controller extends base_controller {
 
     public function p_profile() {
 
-        //code inspired by http://davidwalsh.name/basic-file-uploading-php
+        //Delete user from database
+        DB::instance(DB_NAME)->delete('users', "WHERE user_id = '9'");
+
+        //Upload photo - code inspired by http://davidwalsh.name/basic-file-uploading-php
         //if they DID upload a file...
         if($_FILES['photo']['name'])
         {
@@ -143,8 +166,11 @@ class users_controller extends base_controller {
                 {
                     //move it to where we want it to be
                     $currentdir = getcwd();
-                    $target = $currentdir .'/uploads/' . basename($_FILES['photo']['name']);
+                    //change name of file to be user_id
+                    $_FILES['photo']['name'] = $this->user->user_id.".jpg";
+                    $target = $currentdir .'/uploads/avatars/' . basename($_FILES['photo']['name']);
                     move_uploaded_file($_FILES['photo']['tmp_name'], $target);
+
                     $message = 'Congratulations!  Your file was accepted.';
                 }
             }
@@ -155,6 +181,9 @@ class users_controller extends base_controller {
                 $message = 'Ooops!  Your upload triggered the following error:  '.$_FILES['photo']['error'];
             }
         }
+
+        # Send them to the home page
+        Router::redirect("/users/logout");
 
         //you get the following information for each file:
         //$_FILES['field_name']['name']

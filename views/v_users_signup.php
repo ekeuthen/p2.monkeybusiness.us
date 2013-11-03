@@ -18,6 +18,13 @@
     <input type='password' name='password' required='true'>
     <br><br>
 
+    <?php if(isset($error)): ?>
+        <div class='error'>
+            That email already belongs to a monkey in the Monkey Mic family.  Please login or use another email.
+        </div>
+        <br>
+    <?php endif; ?>
+
     <input type='submit' value='Sign up'>
 
 </form>
