@@ -44,7 +44,7 @@
                 <a href='/users/login'>LOG IN</a>
 
             <?php endif; ?>
-        </div></h3>
+        </h3></div>
         <hr>
 
     </div>
