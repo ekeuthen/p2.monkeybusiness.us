@@ -19,7 +19,6 @@ class users_controller extends base_controller {
 
     }
 
-    #Is there a way to duplicate less code between signup and login?
     public function p_signup() {
 
         # Validate email is not already in the database
@@ -33,6 +32,7 @@ class users_controller extends base_controller {
             Router::redirect("/users/signup/error");
         }
 
+        #If  email is not in database, create account and log in user
         else {
             # More data we want stored with the user
             $_POST['created']  = Time::now();
@@ -134,19 +134,24 @@ class users_controller extends base_controller {
         $this->template->title   = "Profile of ".$this->user->first_name;
 
         # Pass data to the view
-        #$this->template->content->message = $message;
-
+        $this->template->content->message = $message;
 
         # Render template
         echo $this->template;
 
     }
 
+    public function p_profile_delete() {
+
+        # Delete user from database
+        $condition = "WHERE user_id = ".$this->user->user_id;
+        DB::instance(DB_NAME)->delete('users', $condition);
+
+        # Send them to the home page
+        Router::redirect("/users/logout");
+    }
+
     public function p_profile() {
-
-        //Delete user from database
-        DB::instance(DB_NAME)->delete('users', "WHERE user_id = '9'");
-
         //Upload photo - code inspired by http://davidwalsh.name/basic-file-uploading-php
         //if they DID upload a file...
         if($_FILES['photo']['name'])
@@ -158,7 +163,10 @@ class users_controller extends base_controller {
                 if($_FILES['photo']['size'] > (1024000)) //can't be larger than 1 MB
                 {
                     $valid_file = false;
-                    $message = 'Oops!  Your file\'s size is to large.';
+                    $message = 'too-big';
+
+                    # Send them back to their profile
+                    Router::redirect("/users/profile/too-big");
                 }
                 
                 //if the file has passed the test
@@ -167,29 +175,30 @@ class users_controller extends base_controller {
                     //move it to where we want it to be
                     $currentdir = getcwd();
                     //change name of file to be user_id
-                    $_FILES['photo']['name'] = $this->user->user_id.".jpg";
+                    $_FILES['photo']['name'] = "'".$this->user->user_id."'.jpg";
                     $target = $currentdir .'/uploads/avatars/' . basename($_FILES['photo']['name']);
                     move_uploaded_file($_FILES['photo']['tmp_name'], $target);
 
-                    $message = 'Congratulations!  Your file was accepted.';
+                    $message = 'success';
+
+                    # Send them back to their profile
+                    Router::redirect("/users/profile/success");
                 }
             }
             //if there is an error...
             else
             {
                 //set that to be the returned message
-                $message = 'Ooops!  Your upload triggered the following error:  '.$_FILES['photo']['error'];
+                $message = 'error';
+
+                # Send them back to their profile
+                Router::redirect("/users/profile/error");
             }
         }
 
-        # Send them to the home page
-        Router::redirect("/users/logout");
-
-        //you get the following information for each file:
-        //$_FILES['field_name']['name']
-        //$_FILES['field_name']['size']
-        //$_FILES['field_name']['type']
-        //$_FILES['field_name']['tmp_name']
+        # If nothing was submitted, stay on profile
+        $message = 'empty';
+        Router::redirect("/users/profile/empty");
 
     }
 

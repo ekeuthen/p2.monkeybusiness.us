@@ -58,7 +58,7 @@ table {
 	padding: 0px;
 }
 
-.postData, .postContent {
+.postData, .postContent, table#profileInfo td {
 	border: 1px black solid;
 	border-radius: 15px;
 	overflow: hidden;

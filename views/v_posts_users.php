@@ -4,7 +4,14 @@
         <tr>
 
             <td>
-                <img src="/uploads/avatars/monkeyface.jpg" height=50 width=50 class='avatar2' alt="user image">
+                <?php
+                    $displayed_file = '/uploads/avatars/monkeyface.jpg';
+                    $user_file = "uploads/avatars/'".$user['user_id']."'.jpg"; 
+                    if (file_exists($user_file)) {
+                        $displayed_file = "/".$user_file;
+                    } 
+                ?>
+                <img src= <?=$displayed_file?> height=60 width=60 id='avatar' alt='user photo'>
             </td>
 
             <td>
