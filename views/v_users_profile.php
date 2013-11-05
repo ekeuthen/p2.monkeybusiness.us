@@ -29,7 +29,7 @@
 		<td>
 			<!--code inspired by http://davidwalsh.name/basic-file-uploading-php-->
 			<form action="/users/p_profile" method="post" enctype="multipart/form-data">
-				<input type="file" name="photo" size="25" />
+				<input type="file" name="photo" />
 				<input type="submit" name="submit" value="Submit" />
 			</form>
 		</td>
@@ -67,10 +67,12 @@
 
 <!--Alllow users to delete their accounts.  Log them out and then delete records in database. -->
 <form method='POST' action='/users/p_profile_delete'>
-	<tr>
-		<td>Had enough Monkey business?  </td>
-		<td><input type='submit' value='Delete account'></td>
-	</tr>
+	<table>
+		<tr>
+			<td>Had enough Monkey business?  </td>
+			<td><input type='submit' value='Delete account'></td>
+		</tr>
+	</table>
 </form>
 
-<h3>Thank you for being a part of the Monkey <a href='http://www.npwrc.usgs.gov/about/faqs/animals/names.htm'>troop</a> since <?php echo date('F d, Y',$user->created); ?>!</h2>
+<h3>Thank you for being a part of the Monkey <a href='http://www.npwrc.usgs.gov/about/faqs/animals/names.htm'>troop</a> since <?php echo date('F d, Y',$user->created); ?>!</h3>
