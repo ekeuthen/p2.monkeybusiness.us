@@ -175,7 +175,7 @@ class users_controller extends base_controller {
                     //move it to where we want it to be
                     $currentdir = getcwd();
                     //change name of file to be user_id
-                    $_FILES['photo']['name'] = "'".$this->user->user_id."'.jpg";
+                    $_FILES['photo']['name'] = $this->user->user_id.".jpg";
                     $target = $currentdir .'/uploads/avatars/' . basename($_FILES['photo']['name']);
                     move_uploaded_file($_FILES['photo']['tmp_name'], $target);
 

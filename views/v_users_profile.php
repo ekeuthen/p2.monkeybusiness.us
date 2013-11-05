@@ -1,7 +1,7 @@
-<h2>
+<h2 id="profileHeader">
 	<?php
 		$displayed_file = '/uploads/avatars/monkeyface.jpg';
-		$user_file = "uploads/avatars/'".$user->user_id."'.jpg"; 
+		$user_file = "uploads/avatars/".$user->user_id.".jpg"; 
 		if (file_exists($user_file)) {
 		    $displayed_file = "/".$user_file;
 		} 

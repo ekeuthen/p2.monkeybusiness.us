@@ -24,7 +24,7 @@ a {
 	color: black;
 }
 
-div a, img {
+div a, #monkeyMic {
 	padding: 25px;
 }
 
@@ -48,14 +48,6 @@ td {
 
 table {
 	margin: auto;
-}
-
-.avatar {
-	padding: 0px 15px 0px 0px;
-}
-
-.avatar2 {
-	padding: 0px;
 }
 
 .postData, .postContent, table#profileInfo td {
